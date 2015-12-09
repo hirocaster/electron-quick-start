@@ -36,6 +36,7 @@ app.on('ready', function() {
   // Register a 'ctrl+x' shortcut listener.
   var ret = globalShortcut.register('ctrl+x', function() {
     console.log('ctrl+x is pressed');
+    mainWindow.show();
   });
 
   if (!ret) {
