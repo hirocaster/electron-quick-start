@@ -2,6 +2,8 @@
 const electron = require('electron');
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
+const globalShortcut = electron.globalShortcut;
+const dialog = require('electron').dialog;
 
 // Report crashes to our server.
 electron.crashReporter.start();
@@ -31,6 +33,18 @@ app.on('ready', function() {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
+  // Register a 'ctrl+x' shortcut listener.
+  var ret = globalShortcut.register('ctrl+x', function() {
+    console.log('ctrl+x is pressed');
+  });
+
+  if (!ret) {
+    console.log('registration failed');
+  }
+
+  // Check whether a shortcut is registered.
+  console.log(globalShortcut.isRegistered('ctrl+x'));
+
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
@@ -38,4 +52,12 @@ app.on('ready', function() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+});
+
+app.on('will-quit', function() {
+  // Unregister a shortcut.
+  globalShortcut.unregister('ctrl+x');
+
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
 });
