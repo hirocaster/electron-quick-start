@@ -4,6 +4,7 @@ const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 const globalShortcut = electron.globalShortcut;
 const dialog = require('electron').dialog;
+const shell = require('electron').shell;
 
 // Report crashes to our server.
 electron.crashReporter.start();
@@ -37,6 +38,7 @@ app.on('ready', function() {
   var ret = globalShortcut.register('ctrl+x', function() {
     console.log('ctrl+x is pressed');
     mainWindow.show();
+    shell.openItem("/Applications/Notes.app");
   });
 
   if (!ret) {
